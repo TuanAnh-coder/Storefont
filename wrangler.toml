@@ -1,26 +1,20 @@
-name = "nextjs-shop"
-main = ".open-next/worker.js"
-compatibility_date = "2025-12-16"
+name = "restless-glade-0023"                     # Tên Worker bạn muốn
+main = ".open-next/worker.js"            # OpenNext build output
+compatibility_date = "2025-02-04"
 
-# Bắt buộc để chạy Next.js trên Workers
-compatibility_flags = ["nodejs_compat"]
+# Observability (bật để log + metrics)
+observability = { enabled = true }
 
-# Static assets (public/, images, etc.)
-[assets]
-directory = ".open-next/assets"
-binding = "ASSETS"
+# KV namespace cho Incremental Cache / KTV
+kv_namespaces = [
+  { 
+    binding = "NEXT_INC_CACHE_KV", 
+    id = "0c40c618577a0638b73ca1396bd5cb08", 
+    preview_id = ""   # Nếu muốn local dev, tạo namespace preview riêng và điền ID
+  }
+]
 
-# Observability (tuỳ chọn)
-[observability]
-enabled = true
-
-# KV cho Incremental Static Regeneration (ISR) hoặc cache
-[[kv_namespaces]]
-binding = "NEXT_INC_CACHE_KV"
-id = "0c40c618577a0638b73ca1396bd5cb08"
-# preview_id = "..."  # chỉ cần nếu bạn dùng wrangler dev + preview
-
-# Self-reference (tùy chọn — chỉ cần nếu có routing loop)
-[[services]]
-binding = "WORKER_SELF_REFERENCE"
-service = "nextjs-shop"
+# Worker tự gọi chính nó (self-reference)
+services = [
+  { binding = "WORKER_SELF_REFERENCE", service = "restless-glade-0023" }
+]
