@@ -1,0 +1,20 @@
+name = "my-next-app"                     # Tên Worker bạn muốn
+main = ".open-next/worker.js"            # OpenNext build output
+compatibility_date = "2025-02-04"
+
+# Observability (bật để log + metrics)
+observability = { enabled = true }
+
+# KV namespace cho Incremental Cache / KTV
+kv_namespaces = [
+  { 
+    binding = "NEXT_INC_CACHE_KV", 
+    id = "e49eb33a74ef4d7085e017cc03ed9075", 
+    preview_id = ""   # Nếu muốn local dev, tạo namespace preview riêng và điền ID
+  }
+]
+
+# Worker tự gọi chính nó (self-reference)
+services = [
+  { binding = "WORKER_SELF_REFERENCE", service = "my-next-app" }
+]
