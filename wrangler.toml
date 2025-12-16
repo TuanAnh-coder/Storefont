@@ -5,7 +5,11 @@ compatibility_date = "2025-02-04"
 # Observability (bật để log + metrics)
 observability = { enabled = true }
 
-# Worker tự gọi chính nó (self-reference)
-services = [
-  { binding = "WORKER_SELF_REFERENCE", service = "restless-glade-0023" }
+# KV namespace cho Incremental Cache / KTV
+kv_namespaces = [
+  { 
+    binding = "NEXT_INC_CACHE_KV", 
+    id = "0c40c618577a0638b73ca1396bd5cb08", 
+    preview_id = ""   # Nếu muốn local dev, tạo namespace preview riêng và điền ID
+  }
 ]
