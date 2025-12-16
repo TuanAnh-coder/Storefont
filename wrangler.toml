@@ -7,7 +7,7 @@ compatibility_flags = ["nodejs_compat"]
 
 # Static assets (public/, images, etc.)
 [assets]
-directory = ".open-next/cloudflare/assets"
+directory = ".open-next/assets"
 binding = "ASSETS"
 
 # Observability (tuỳ chọn)
