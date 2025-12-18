@@ -29,15 +29,27 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select"
-import { useState } from "react";
+import { useEffect, useState } from "react";
 const CartStep = ({ product = [], nextStep }: { product: StoreCartLineItem[]; nextStep: () => void }) => {
     const { data: ship } = api.medusa.getShippingOptions.useQuery();
-    const [quantities, setQuantities] = useState(() => product.map(item => item.quantity));
-    console.log("ship", ship);
-    let priceTotal = 0
-    product.map((item) => {
-        priceTotal += item.unit_price * quantities[product.indexOf(item)]
-    })
+    const [quantities, setQuantities] = useState<number[]>([])
+    const { mutate: cartDelete } = api.medusa.deleterFromCart.useMutation();
+    const handleDeleteItem = async (line_item_id: string) => {
+        try {
+            const cart_id = localStorage.getItem("cart_id")
+            if (!cart_id || !line_item_id) return
+            cartDelete({ cart_id: cart_id, line_item_id: line_item_id })
+        } catch (error) {
+            console.error("Error deleting item from cart:", error)
+        }
+    }
+    useEffect(() => {
+        setQuantities(product.map(item => item.quantity))
+    }, [product])
+    const priceTotal = product.reduce((total, item, index) => {
+        return total + item.unit_price * (quantities[index] ?? 0)
+    }, 0)
+
     console.log(priceTotal)
     return (
         <div className="flex flex-col gap-3 xl:flex-row xl:justify-between">
@@ -79,7 +91,11 @@ const CartStep = ({ product = [], nextStep }: { product: StoreCartLineItem[]; ne
                                                         {/* Edit content */}
                                                     </DrawerContent>
                                                 </Drawer>
-                                                <Button variant="ghost" className="p-0 text-gray-500 h-auto">
+                                                <Button
+                                                    variant="ghost"
+                                                    className="p-0 text-gray-500 h-auto"
+                                                    onClick={() => handleDeleteItem(item.id)}
+                                                >
                                                     <RiDeleteBinLine /> Remove
                                                 </Button>
                                             </div>

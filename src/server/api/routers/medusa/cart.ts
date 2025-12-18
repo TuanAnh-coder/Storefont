@@ -24,4 +24,16 @@ export const cartRouter = {
     });
     return response;
   }),
+  deleterFromCart: publicProcedure
+  .input(z.object({
+    cart_id: z.string(),
+    line_item_id: z.string(),
+  }))
+  .mutation(async ({ input }) => {
+    const response = await medusaClient.store.cart.deleteLineItem(
+      input.cart_id,
+      input.line_item_id
+    )
+    return response
+  }),
 }

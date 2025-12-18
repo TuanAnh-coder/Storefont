@@ -268,7 +268,7 @@ const Detail = ({ product }: { product: any }) => {
                     <Link href={'/'} className="text-gray-700 text-[10px] sm:text-xs md:text-sm col-span-3 md:col-span-2">Buying In Bulk</Link>
                     <div className="col-span-2 md:col-span-4 text-end flex gap-1.5 sm:gap-2 md:gap-3 justify-end">
                         <Button className="bg-[#F8F8F8] text-black-900 h-7 w-7 sm:h-9 sm:w-9 md:h-10 md:w-10 p-0 text-base sm:text-lg" variant="outline" onClick={() => setMount(mount + 1)}>+</Button>
-                        <Input type="text" defaultValue={mount} className="w-[35px] sm:w-[45px] md:w-[50px] h-7 sm:h-9 md:h-10 text-center text-xs sm:text-sm" />
+                        <Input type="text" value={mount} className="w-[35px] sm:w-[45px] md:w-[50px] h-7 sm:h-9 md:h-10 text-center text-xs sm:text-sm" />
                         <Button className="bg-[#F8F8F8] text-black-900 h-7 w-7 sm:h-9 sm:w-9 md:h-10 md:w-10 p-0 text-base sm:text-lg" variant="outline" onClick={() => mount > 1 && setMount(mount - 1)}>-</Button>
                     </div>
                 </div>

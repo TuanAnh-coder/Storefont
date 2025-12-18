@@ -56,34 +56,6 @@ const nextConfig = {
     ],
   },
   output: 'standalone',
-  experimental: {
-    isrMemoryCacheSize: 0, // tắt cache in-memory
-  },
-  // 🔥 BẮT BUỘC: loại bỏ các module không tương thích với Cloudflare Workers
-  webpack: (config, {
-    isServer,
-    dev
-  }) => {
-    if (isServer && !dev) {
-      config.externals = [
-        ...(config.externals || []),
-        /**
-         * @param {{ request: string }} data
-         * @param {(err?: Error | null, result?: string) => void} callback
-         */
-        (data, callback) => {
-          const {
-            request
-          } = data;
-          if (['sharp', 'canvas', 'jose', '@panva/hkdf'].includes(request)) {
-            return callback(null, `commonjs ${request}`);
-          }
-          callback();
-        },
-      ];
-    }
-    return config;
-  },
 };
 
 export default nextConfig;
